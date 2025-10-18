@@ -1,0 +1,47 @@
+using System;
+
+namespace Mazes
+{
+    public static class SnakeMazeTask
+    {
+        public static void MoveOut(Robot robot, int width, int height)
+        {
+            int horizontalSteps = width - 3;
+            int snakeLevels = (height - 3) / 2;
+            Direction direction = Direction.Right;
+
+            MoveThroughAllLevels(robot, snakeLevels, horizontalSteps, direction);
+        }
+
+
+        private static void MoveThroughAllLevels(Robot robot, int snakeLevels, int horizontalSteps, Direction direction)
+        {
+            for (int i = 0; i < snakeLevels; i++)
+            {
+                MoveStraight(robot, horizontalSteps, direction);
+                MoveDown(robot);
+                MoveDown(robot);
+                direction = ChangeDirection(direction);
+            }
+
+            MoveStraight(robot, horizontalSteps, direction);
+        }
+
+
+        private static void MoveStraight(Robot robot, int steps, Direction direction)
+        {
+            for (int i = 0; i < steps; i++)
+                robot.MoveTo(direction);
+        }
+
+        private static void MoveDown(Robot robot)
+        {
+            robot.MoveTo(Direction.Down);
+        }
+
+        private static Direction ChangeDirection(Direction current)
+        {
+            return current == Direction.Right ? Direction.Left : Direction.Right;
+        }
+    }
+}
